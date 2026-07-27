@@ -26,8 +26,8 @@ mkdirSync(resolve(ROOT, "paneel"), { recursive: true });
 /* ------------------------------------------------------------------ */
 
 // Interne links worden relatief gemaakt aan de hand van de map-diepte van de
-// pagina. Zo werkt de site zowel op een eigen domein (zonnestroommaatje.nl)
-// als in een submap zoals gebruiker.github.io/Zonnestroommaatje/.
+// pagina. Zo werkt de site zowel op het eigen domein (zonnestroommaatje.nl)
+// als op een preview-URL of in een submap.
 const relativeer = (html, diepte) => {
   const prefix = diepte > 0 ? "../".repeat(diepte) : "";
   return html.replaceAll('href="/', `href="${prefix}`).replaceAll('src="/', `src="${prefix}`);

@@ -1,6 +1,6 @@
 # ☀️ Zonnestroommaatje.nl
 
-Een gebruiksvriendelijke, statische vergelijkingssite voor zonnepanelen op de Nederlandse markt. Gebouwd voor GitHub Pages: geen build-stap, geen server nodig. De zustersite van [Batterijmaatje.nl](https://batterijmaatje.nl/) (thuisbatterijen), met dezelfde opzet en huisstijl.
+Een gebruiksvriendelijke, statische vergelijkingssite voor zonnepanelen op de Nederlandse markt. Puur HTML, CSS en JavaScript: geen build-stap, geen server nodig. De zustersite van [Batterijmaatje.nl](https://batterijmaatje.nl/) (thuisbatterijen), met dezelfde opzet en huisstijl.
 
 ## Wat kan de site?
 
@@ -34,16 +34,20 @@ scripts/genereer-paneelpaginas.mjs   Genereert paneel-, overzichts- en vs-pagina
 scripts/update-prices.mjs       Prijsupdate-script (Node.js), voor gekoppelde winkels
 .github/workflows/
   update-prijzen.yml            Dagelijkse GitHub Action die prijzen ververst
-  deploy-pages.yml              Publicatie naar GitHub Pages
 ```
 
 ## Hosting
 
-Deze site draait in de repository [AI-KRook/Zonnemaatje](https://github.com/AI-KRook/Zonnemaatje) op GitHub Pages (bron: GitHub Actions, workflow `deploy-pages.yml`, branch `main`). Zonder gekoppeld domein staat hij op `https://zonnestroommaatje.nl/`; alle interne links zijn relatief, dus de site werkt zowel in die submap als op een eigen domein.
+De site staat in de repository [Krook88/Zonnemaatje](https://github.com/Krook88/Zonnemaatje) en draait op **Vercel** (team `the-rook`, project `zonnemaatje`), bereikbaar op <https://zonnestroommaatje.nl/>. `www.zonnestroommaatje.nl` stuurt met een 308 door naar het apex-domein.
 
-Het domein `zonnestroommaatje.nl` koppelen: vul het in bij **Settings → Pages → Custom domain** en verwijs bij je domeinregistrar de DNS naar GitHub Pages (CNAME `www` → `ai-krook.github.io`, en voor het apex-domein de A-records van GitHub Pages). Het `CNAME`-bestand staat al in de repository.
+Publiceren gaat automatisch: elke push naar `main` levert een nieuwe productiedeploy op. Er is geen build-stap en geen framework ingesteld; Vercel serveert de repository als statische site. Pushes naar andere branches krijgen een preview-URL, zonder invloed op het domein.
 
-De site is ontwikkeld op de branch `claude/zonnepaneelmaatje-website-cl6974` van de Thuisbatterijvergelijker-repository; de deploy-workflow staat bewust alleen op `main` + handmatig starten, zodat er vanaf die branch nooit per ongeluk over batterijmaatje.nl heen wordt gepubliceerd.
+Twee dingen zijn goed om te weten:
+
+- Alle interne links zijn relatief en houden hun `.html`-extensie (net als de `canonical`-tags en `sitemap.xml`). Zet dus geen `cleanUrls` aan in een `vercel.json`: dat zou elke URL laten omleiden.
+- `404.html` wordt door Vercel automatisch gebruikt als pagina voor onbekende URL's. De links daarin zijn absoluut (`/assets/…`), omdat de pagina ook op een pad als `/paneel/typfout` getoond kan worden.
+
+Tot juli 2026 draaide de site op GitHub Pages (workflow `deploy-pages.yml` plus een `CNAME`-bestand). Die zijn bij de overstap naar Vercel verwijderd en GitHub Pages is uitgezet.
 
 ## Prijzen en data bijwerken
 
