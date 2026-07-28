@@ -69,12 +69,12 @@
     // Stap 1: isoleren (advies, geen bedragen; wij vergelijken geen isolatie)
     if (s.isolatie !== "goed") {
       stappen.push({
-        icoon: "🧱", titel: "Eerst: isolatie op orde",
+        icoon: Iconen.svg("huis"), titel: "Eerst: isolatie op orde",
         advies: s.isolatie === "matig"
           ? "Je huis is matig geïsoleerd. Isoleren is de goedkoopste besparing en maakt elke volgende stap kleiner en goedkoper: je hebt daarna een kleinere warmtepomp en minder panelen nodig. Begin hier."
           : "Je huis is redelijk geïsoleerd. Check of vloer-, spouw- of dakisolatie nog loont voordat je de warmtepomp kiest; elke bespaarde m³ gas maakt de volgende stappen kleiner.",
         bedragen: null,
-        knoppen: [{ tekst: "Check je isolatie op Verbeterjehuis →", url: "https://www.verbeterjehuis.nl/verbetercheck", extern: true }],
+        knoppen: [{ tekst: `Check je isolatie op Verbeterjehuis ${Iconen.svg("pijl-rechts")}`, url: "https://www.verbeterjehuis.nl/verbetercheck", extern: true }],
       });
     }
 
@@ -100,7 +100,7 @@
       const besparing = gasBespaard * GASPRIJS + (allElectric ? VASTRECHT_GAS : 0) - pompKwh * STROOMPRIJS;
       const geluidZin = s.woning !== "vrijstaand" ? " Kies een stille buitenunit: met buren op de erfgrens geldt in de nacht een eis van 40 dB." : "";
       stappen.push({
-        icoon: "🔥", titel: `Warmtepomp: ${wp.label}`,
+        icoon: Iconen.svg("aanbieding"), titel: `Warmtepomp: ${wp.label}`,
         advies: (allElectric
           ? (s.cvKetel === "geen"
             ? "Zonder cv-ketel is hybride niet mogelijk; all-electric is de logische keuze en levert de hoogste subsidie op."
@@ -110,8 +110,8 @@
           : `${s.isolatie === "matig" ? "Bij matige isolatie" : "Met alleen radiatoren"} is hybride de veilige route: circa 60% gasbesparing, de ketel vangt piekkou en warm water op.` + (s.cvKetel === "oud" ? " Let op: je ketel is aan vervanging toe; reken een nieuwe mee of overweeg all-electric na isoleren." : "")) + geluidZin,
         bedragen: { investering, subsidie: wp.isde, besparing },
         knoppen: [
-          { tekst: "Doe de warmtepomp-keuzehulp →", url: "https://warmtepompmaatje.nl/advies.html", extern: true },
-          { tekst: "Bereken exact →", url: `https://warmtepompmaatje.nl/rekenmodule.html?gas=${s.gas}`, extern: true },
+          { tekst: `Doe de warmtepomp-keuzehulp ${Iconen.svg("pijl-rechts")}`, url: "https://warmtepompmaatje.nl/advies.html", extern: true },
+          { tekst: `Bereken exact ${Iconen.svg("pijl-rechts")}`, url: `https://warmtepompmaatje.nl/rekenmodule.html?gas=${s.gas}`, extern: true },
         ],
       });
     }
@@ -131,12 +131,12 @@
       const teruggeleverd = opwek - eigen;
       const besparing = eigen * STROOMPRIJS + teruggeleverd * (VERGOEDING - TERUGLEVERKOSTEN);
       stappen.push({
-        icoon: "☀️", titel: `Zonnepanelen: ${aantal} panelen (${numFmt.format(aantal * WP_PANEEL)} Wp)`,
+        icoon: Iconen.svg("zon"), titel: `Zonnepanelen: ${aantal} panelen (${numFmt.format(aantal * WP_PANEEL)} Wp)`,
         advies: `Gedimensioneerd op je stroomverbruik ná de warmtepomp (${numFmt.format(verbruikNa)} kWh per jaar${gewenst > aantal ? `; je dak begrenst het aantal op ${aantal}` : ""}). Jaaropbrengst circa ${numFmt.format(opwek)} kWh.`,
         bedragen: { investering, subsidie: 0, besparing },
         knoppen: [
-          { tekst: "Vergelijk zonnepanelen →", url: "index.html" },
-          { tekst: `Bereken exact →`, url: `rekenmodule.html?aantal=${aantal}` },
+          { tekst: `Vergelijk zonnepanelen ${Iconen.svg("pijl-rechts")}`, url: "index.html" },
+          { tekst: `Bereken exact ${Iconen.svg("pijl-rechts")}`, url: `rekenmodule.html?aantal=${aantal}` },
         ],
       });
     } else {
@@ -151,28 +151,28 @@
       const extraEigen = Math.min(opwek * 0.25, Math.max(0, verbruikNa - opwek * eigenPct));
       const besparing = extraEigen * (STROOMPRIJS - (VERGOEDING - TERUGLEVERKOSTEN));
       stappen.push({
-        icoon: "🔋", titel: `Thuisbatterij: circa ${capaciteit} kWh`,
+        icoon: Iconen.svg("batterij"), titel: `Thuisbatterij: circa ${capaciteit} kWh`,
         advies: `${pompKwh > 0 || s.heeftPomp ? "Met een warmtepomp past een wat grotere batterij om de avond te overbruggen. " : ""}De batterij vangt je middagopwek op voor de avond en kan met een dynamisch contract extra verdienen op goedkope uren (die bonus rekenen wij hier niet mee).`,
         bedragen: { investering, subsidie: 0, besparing },
-        knoppen: [{ tekst: "Doe de batterij-keuzehulp →", url: "https://batterijmaatje.nl/advies.html", extern: true }],
+        knoppen: [{ tekst: `Doe de batterij-keuzehulp ${Iconen.svg("pijl-rechts")}`, url: "https://batterijmaatje.nl/advies.html", extern: true }],
       });
     }
 
     // Stap 5: dynamisch energiecontract (gratis stap; alleen zinvol met iets
     // slims om te sturen: warmtepomp of thuisbatterij, nu of in het plan)
-    const krijgtPomp = pompKwh > 0, krijgtBatterij = stappen.some((st) => st.icoon === "🔋");
+    const krijgtPomp = pompKwh > 0, krijgtBatterij = stappen.some((st) => st.icoon === Iconen.svg("batterij"));
     if (s.contract !== "dynamisch" && (krijgtPomp || krijgtBatterij || s.heeftPomp || s.heeftBatterij)) {
       const flex = [
         (krijgtPomp || s.heeftPomp) && "je warmtepomp kan het boilervat opwarmen op de goedkoopste uren",
         (krijgtBatterij || s.heeftBatterij) && "je batterij laadt goedkoop en dekt de dure avond",
       ].filter(Boolean).join(" en ");
       stappen.push({
-        icoon: "⚡", titel: "Sluitstuk: overweeg een dynamisch energiecontract",
+        icoon: Iconen.svg("stroom"), titel: "Sluitstuk: overweeg een dynamisch energiecontract",
         advies: `Je betaalt dan de uurprijs van de stroombeurs in plaats van één ${s.contract === "vast" ? "vaste" : "variabele"} prijs. Zonder flexibiliteit is dat een gok, maar na dit plan heb je die flexibiliteit juist wél: ${flex}. Slimme sturing verschuift je verbruik automatisch naar goedkope uren; de winst daarvan zit nog níet in de bedragen hierboven, het is dus een bonus. Vergelijk wel de opslag per kWh en de vaste kosten per leverancier.`,
         bedragen: null,
         knoppen: [
-          { tekst: "Uitleg met grafiek en rekenvoorbeeld →", url: "https://batterijmaatje.nl/uitleg.html#vast-of-dynamisch", extern: true },
-          { tekst: "Onafhankelijke uitleg (Milieu Centraal) →", url: "https://www.milieucentraal.nl/energie-besparen/inzicht-in-je-energierekening/dynamisch-energiecontract/", extern: true },
+          { tekst: `Uitleg met grafiek en rekenvoorbeeld ${Iconen.svg("pijl-rechts")}`, url: "https://batterijmaatje.nl/uitleg.html#vast-of-dynamisch", extern: true },
+          { tekst: `Onafhankelijke uitleg (Milieu Centraal) ${Iconen.svg("pijl-rechts")}`, url: "https://www.milieucentraal.nl/energie-besparen/inzicht-in-je-energierekening/dynamisch-energiecontract/", extern: true },
         ],
       });
     }
@@ -215,7 +215,7 @@
     const allesGedaan = !stappen.length;
 
     el("planInhoud").innerHTML = allesGedaan
-      ? `<p>💪 Mooi bezig: je hebt de grote stappen al gezet. Check onze vergelijkers voor optimalisatie, bijvoorbeeld een <a href="omvormers.html">slimmere omvormer</a> of <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">een grotere batterij</a>.</p>`
+      ? `<p>${Iconen.svg("groen")} Mooi bezig: je hebt de grote stappen al gezet. Check onze vergelijkers voor optimalisatie, bijvoorbeeld een <a href="omvormers.html">slimmere omvormer</a> of <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">een grotere batterij</a>.</p>`
       : `
       ${metBedragen.length ? `<div class="plan-samenvatting">
         <div class="resultaat-groot">${tvt === null ? "?" : tvt.toFixed(1).replace(".", ",") + " jaar"}</div>
@@ -228,10 +228,10 @@
           <div class="vgl-rij"><span class="vgl-label">Energiekosten nu</span><div class="vgl-balk"><span style="width:${(voor / maxT) * 100}%;background:var(--kleur-primair);"></span></div><b class="vgl-bedrag">${eurFmt.format(voor)}</b></div>
           <div class="vgl-rij"><span class="vgl-label">Na het plan</span><div class="vgl-balk"><span style="width:${(na / maxT) * 100}%;background:var(--kleur-groen, #16a34a);"></span></div><b class="vgl-bedrag">${eurFmt.format(na)}</b></div>
         </div>
-        <p class="hint" style="margin:8px 0 0;">💡 Alles tegelijk hoeft niet: elke stap staat op zichzelf en bespaart direct. Veel mensen spreiden de stappen over meerdere jaren.</p>
+        <p class="hint" style="margin:8px 0 0;">${Iconen.svg("tip")} Alles tegelijk hoeft niet: elke stap staat op zichzelf en bespaart direct. Veel mensen spreiden de stappen over meerdere jaren.</p>
       </div>` : ""}
       ${stappen.map((st, i) => stapKaart(st, i + 1)).join("")}
-      <p class="hint" style="margin-top:12px;">Indicatie op basis van vuistregels en gemiddelde prijzen; geen offerte of financieel advies. Per stap rekent de gekoppelde tool het exact voor je door. <a href="javascript:window.print()">🖨️ Plan afdrukken</a></p>
+      <p class="hint" style="margin-top:12px;">Indicatie op basis van vuistregels en gemiddelde prijzen; geen offerte of financieel advies. Per stap rekent de gekoppelde tool het exact voor je door. <a href="javascript:window.print()">${Iconen.svg("printen")} Plan afdrukken</a></p>
     `;
   }
 

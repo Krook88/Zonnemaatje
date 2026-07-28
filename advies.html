@@ -14,9 +14,10 @@
   <meta property="og:image" content="https://zonnestroommaatje.nl/assets/og-image.png">
   <meta property="og:site_name" content="Zonnestroommaatje.nl">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="stylesheet" href="assets/style.css?v=20260723c">
-  <script src="assets/advies.js?v=20260723b" defer></script>
-  <script src="assets/nav.js?v=20260721c" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=20260728a">
+  <script src="assets/iconen.js?v=20260728a" defer></script>
+  <script src="assets/advies.js?v=20260728a" defer></script>
+  <script src="assets/nav.js?v=20260728a" defer></script>
   <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=1">
   <style>
@@ -52,7 +53,7 @@
 <header class="site-header">
   <div class="container">
     <a class="logo" href="index.html">
-      <span class="logo-icoon">☀️</span>
+      <span class="logo-icoon"><svg class="icoon icoon-groot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4" /> <path d="M12 2v2" /> <path d="M12 20v2" /> <path d="m4.93 4.93 1.41 1.41" /> <path d="m17.66 17.66 1.41 1.41" /> <path d="M2 12h2" /> <path d="M20 12h2" /> <path d="m6.34 17.66-1.41 1.41" /> <path d="m19.07 4.93-1.41 1.41" /></svg></span>
       <span>Zonnestroom<b>maatje</b></span>
     </a>
     <nav class="hoofdnav">
@@ -62,7 +63,7 @@
       <a href="advies.html" class="actief">Keuzehulp</a>
       <a href="rekenmodule.html">Terugverdientijd</a>
       <details class="nav-meer">
-        <summary>Meer ▾</summary>
+        <summary>Meer <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></summary>
         <div class="nav-meer-paneel">
           <a href="energieplan.html">Jouw energieplan</a>
           <a href="uitleg.html">Uitleg</a>
@@ -128,13 +129,13 @@
       <div class="veld">
         <span class="filter-label" style="font-size:0.85rem;font-weight:700;color:var(--kleur-tekst-licht);">Verwacht je de komende jaren extra stroomverbruik?</span>
         <div class="checkbox-groep">
-          <label><input type="checkbox" id="checkAuto"> 🚗 Elektrische auto (± 2.000 kWh per jaar)</label>
-          <label><input type="checkbox" id="checkWarmtepomp"> 🌡️ (Hybride) warmtepomp (± 2.000 kWh per jaar)</label>
+          <label><input type="checkbox" id="checkAuto"> <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" /> <circle cx="7" cy="17" r="2" /> <path d="M9 17h6" /> <circle cx="17" cy="17" r="2" /></svg> Elektrische auto (± 2.000 kWh per jaar)</label>
+          <label><input type="checkbox" id="checkWarmtepomp"> <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z" /></svg> (Hybride) warmtepomp (± 2.000 kWh per jaar)</label>
         </div>
       </div>
 
       <div class="veld">
-        <label for="batterijPlan">🔋 Wil je een thuisbatterij?</label>
+        <label for="batterijPlan"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m11 7-3 5h4l-3 5" /> <path d="M14.856 6H16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.935" /> <path d="M22 14v-4" /> <path d="M5.14 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2.936" /></svg> Wil je een thuisbatterij?</label>
         <select id="batterijPlan">
           <option value="nee" selected>Nee (of nog niet over nagedacht)</option>
           <option value="later">Misschien later, ik wil de optie openhouden</option>
@@ -144,7 +145,7 @@
       </div>
 
       <div class="veld">
-        <label for="smartHome">🏠 Gebruik je een smart home-systeem?</label>
+        <label for="smartHome"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /> <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg> Gebruik je een smart home-systeem?</label>
         <select id="smartHome">
           <option value="geen" selected>Nee / niet belangrijk</option>
           <option value="home_assistant">Ja, Home Assistant</option>
@@ -165,7 +166,7 @@
 
       <div class="veld">
         <div class="checkbox-groep">
-          <label title="Volledig zwarte panelen: cellen, folie en frame"><input type="checkbox" id="checkFullBlack"> ⬛ Alleen full black panelen (strak zwart dak)</label>
+          <label title="Volledig zwarte panelen: cellen, folie en frame"><input type="checkbox" id="checkFullBlack"> Alleen full black panelen (strak zwart dak)</label>
         </div>
       </div>
     </form>
@@ -194,7 +195,7 @@
 
 <footer class="site-footer">
   <div class="container">
-    <b>☀️ Zonnestroommaatje</b>
+    <b><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4" /> <path d="M12 2v2" /> <path d="M12 20v2" /> <path d="m4.93 4.93 1.41 1.41" /> <path d="m17.66 17.66 1.41 1.41" /> <path d="M2 12h2" /> <path d="M20 12h2" /> <path d="m6.34 17.66-1.41 1.41" /> <path d="m19.07 4.93-1.41 1.41" /></svg> Zonnestroommaatje</b>
     <p>Onafhankelijke vergelijking van zonnepanelen voor Nederlandse huishoudens. Zustersite van <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a> (thuisbatterijen) en <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje</a> (warmtepompen).</p>
     <p><a href="index.html">Zonnepanelen</a> · <a href="omvormers.html">Omvormers</a> · <a href="systeem.html">Samenstellen</a> · <a href="advies.html">Keuzehulp</a> · <a href="rekenmodule.html">Terugverdientijd</a> · <a href="uitleg.html">Uitleg</a> · <a href="waar-zonnepanelen-kopen.html">Waar koop je panelen?</a> · <a href="regelgeving.html">Regels &amp; subsidies</a> · <a href="beste-zonnepanelen-klein-dak.html">Beste voor een klein dak</a> · <a href="beste-glas-glas-zonnepanelen.html">Beste glas-glas panelen</a> · <a href="index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="over-ons.html">Over ons</a> · <a href="contact.html">Contact</a> · <a href="privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: dit advies is een indicatie; er kunnen geen rechten aan worden ontleend. Controleer voor aankoop zelf de actuele specificaties en de geschiktheid voor jouw dak.</p>

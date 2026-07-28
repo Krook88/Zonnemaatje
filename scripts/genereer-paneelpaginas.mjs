@@ -11,6 +11,12 @@
 import { readFileSync, writeFileSync, mkdirSync } from "node:fs";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { createRequire } from "node:module";
+
+// Dezelfde icoonset als de browser gebruikt, zodat een icoon op een
+// gegenereerde pagina identiek is aan datzelfde icoon in de vergelijker.
+const vereis = createRequire(import.meta.url);
+const Iconen = vereis("../assets/iconen.js");
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
@@ -18,7 +24,7 @@ const SITE = "https://zonnestroommaatje.nl";
 const VANDAAG = new Date().toISOString().slice(0, 10);
 // Versienummer achter css/js-links: dwingt browsers om na een wijziging
 // het nieuwe bestand op te halen in plaats van een oude kopie uit de cache.
-const ASSET_VERSIE = "20260723c";
+const ASSET_VERSIE = "20260728a";
 
 const data = JSON.parse(readFileSync(resolve(ROOT, "data/panelen.json"), "utf8"));
 mkdirSync(resolve(ROOT, "paneel"), { recursive: true });
@@ -82,7 +88,7 @@ function zekerScore(p) {
 function zekerScoreBadge(p) {
   const score = zekerScore(p);
   const klasse = score >= 5 ? "zeker-hoog" : score >= 3 ? "zeker-midden" : "zeker-laag";
-  return `<span class="badge zeker-score ${klasse}" title="Punten voor productgarantie, vermogensbehoud en glas-glas">\u{1F6E1}️ Zeker-score ${score}/6</span>`;
+  return `<span class="badge zeker-score ${klasse}" title="Punten voor productgarantie, vermogensbehoud en glas-glas">${Iconen.svg("veiligheid")} Zeker-score ${score}/6</span>`;
 }
 
 // Sterren voor opbrengst per m² dak: zelfde drempels als assets/app.js
@@ -93,7 +99,10 @@ function dakSterren(p) {
 
 function sterren(score) {
   const s = Math.max(0, Math.min(5, Math.round(score || 0)));
-  return "★".repeat(s) + "☆".repeat(5 - s);
+  // Gevulde en lege ster komen uit dezelfde icoonset, zodat ze precies
+  // dezelfde vorm hebben in plaats van twee losse tekens.
+  const ster = (gevuld) => Iconen.svg("ster", { gevuld });
+  return `<span class="sterren-rij" role="img" aria-label="${s} van 5 sterren">${ster(true).repeat(s)}${ster(false).repeat(5 - s)}</span>`;
 }
 
 // Merklogo: officiële logo's uit assets/logos/, geregistreerd in data (merk_logos)
@@ -188,7 +197,7 @@ const NAV = `
 <header class="site-header">
   <div class="container">
     <a class="logo" href="/index.html">
-      <span class="logo-icoon">☀️</span>
+      <span class="logo-icoon">${Iconen.svg("zon")}</span>
       <span>Zonnestroom<b>maatje</b></span>
     </a>
     <nav class="hoofdnav">
@@ -198,7 +207,7 @@ const NAV = `
       <a href="/advies.html">Keuzehulp</a>
       <a href="/rekenmodule.html">Terugverdientijd</a>
       <details class="nav-meer">
-        <summary>Meer ▾</summary>
+        <summary>Meer ${Iconen.svg("chevron")}</summary>
         <div class="nav-meer-paneel">
           <a href="/energieplan.html">Jouw energieplan</a>
           <a href="/uitleg.html">Uitleg</a>
@@ -217,7 +226,7 @@ const NAV = `
 const FOOTER = `
 <footer class="site-footer">
   <div class="container">
-    <b>☀️ Zonnestroommaatje</b>
+    <b>${Iconen.svg("zon")} Zonnestroommaatje</b>
     <p>Onafhankelijke vergelijking van zonnepanelen voor Nederlandse huishoudens. Zustersite van <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a> (thuisbatterijen) en <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje</a> (warmtepompen).</p>
     <p><a href="/index.html">Zonnepanelen</a> · <a href="/omvormers.html">Omvormers</a> · <a href="/systeem.html">Samenstellen</a> · <a href="/advies.html">Keuzehulp</a> · <a href="/rekenmodule.html">Terugverdientijd</a> · <a href="/energieplan.html">Jouw energieplan</a> · <a href="/uitleg.html">Uitleg</a> · <a href="/waar-zonnepanelen-kopen.html">Waar koop je panelen?</a> · <a href="/regelgeving.html">Regels &amp; subsidies</a> · <a href="/index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="/beste-zonnepanelen-klein-dak.html">Beste voor een klein dak</a> · <a href="/beste-glas-glas-zonnepanelen.html">Beste glas-glas panelen</a> · <a href="/over-ons.html">Over ons</a> · <a href="/contact.html">Contact</a> · <a href="/privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: prijzen en specificaties veranderen regelmatig; er kunnen geen rechten aan worden ontleend. Prijzen zijn indicatief; de prijs en voorwaarden op de website van de aanbieder zijn altijd leidend.</p>
@@ -304,7 +313,7 @@ function pagina(p) {
     ${beste ? `<div style="font-size:1.6rem;font-weight:800;">${eur(beste.prijs_eur)} <span style="font-size:0.95rem;font-weight:400;color:var(--kleur-tekst-licht);">${perWp ? `${eurWp(perWp)} per Wp` : ""} · ${esc(beste.winkel)}</span></div>` : "<div><b>Prijs op aanvraag</b></div>"}
     ${p.prijs_omvat ? `<div style="font-size:0.9rem;color:var(--kleur-tekst-licht);">${esc(p.prijs_omvat)}</div>` : ""}
     <p style="margin:14px 0 0;">
-      ${beste && beste.url && !String(beste.winkel || "").startsWith("richtprijs") ? `<a class="knop" href="${esc(beste.affiliate_url || beste.url)}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijk bij ${esc(beste.winkel)} →</a>&nbsp;` : ""}
+      ${beste && beste.url && !String(beste.winkel || "").startsWith("richtprijs") ? `<a class="knop" href="${esc(beste.affiliate_url || beste.url)}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijk bij ${esc(beste.winkel)} ${Iconen.svg("pijl-rechts")}</a>&nbsp;` : ""}
       <a class="knop knop-secundair" href="/rekenmodule.html?paneel=${encodeURIComponent(p.id)}">Bereken terugverdientijd</a>
     </p>
   </div>
@@ -334,8 +343,8 @@ function pagina(p) {
 
   <h2>Degelijkheid en garanties</h2>
   <p style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">${zekerScoreBadge(p)}
-    <span class="badge ${p.uitvoering === "glas-glas" ? "ja" : "nee"}">${p.uitvoering === "glas-glas" ? "✓" : "✕"} Glas-glas</span>
-    <span class="badge ${(p.garantie_product_jaar || 0) >= 25 ? "ja" : "nee"}">${(p.garantie_product_jaar || 0) >= 25 ? "✓" : "✕"} 25+ jaar productgarantie</span>
+    <span class="badge ${p.uitvoering === "glas-glas" ? "ja" : "nee"}">${p.uitvoering === "glas-glas" ? "" + Iconen.svg("ja") + "" : "" + Iconen.svg("nee") + ""} Glas-glas</span>
+    <span class="badge ${(p.garantie_product_jaar || 0) >= 25 ? "ja" : "nee"}">${(p.garantie_product_jaar || 0) >= 25 ? "" + Iconen.svg("ja") + "" : "" + Iconen.svg("nee") + ""} 25+ jaar productgarantie</span>
   </p>
   <p class="datum-stempel">De <a href="/uitleg.html#zeker-score">Zeker-score</a> telt productgarantie, vermogensbehoud na 25 jaar en glas-glas uitvoering op: 2 punten per onderdeel.</p>
 
@@ -434,7 +443,7 @@ function overzichtsPagina(cfg) {
   return `${kop(cfg.titel, cfg.metaDesc, `${SITE}/${cfg.bestand}`, wrapLd(itemList))}
 
 <main class="container" style="max-width:900px;">
-  <p class="datum-stempel" style="margin-top:22px;"><a href="/index.html">← Alle zonnepanelen vergelijken</a></p>
+  <p class="datum-stempel" style="margin-top:22px;"><a href="/index.html">${Iconen.svg("pijl-links")} Alle zonnepanelen vergelijken</a></p>
   <h1>${esc(cfg.titel)}</h1>
   <p class="datum-stempel">Automatisch samengesteld uit onze vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
   <p>${esc(cfg.intro)}</p>
@@ -489,7 +498,7 @@ function vergelijkingsPagina(v) {
   const laagWint = (x, y) => (x == null || y == null || x === y) ? -1 : (x < y ? 0 : 1);
   const hoogWint = (x, y) => (x == null || y == null || x === y) ? -1 : (x > y ? 0 : 1);
   const perA = prijsPerWp(A), perB = prijsPerWp(B);
-  const jaNee = (w) => (w ? "✓ Ja" : "✕ Nee");
+  const jaNee = (w) => (w ? `${Iconen.svg("ja")} Ja` : `${Iconen.svg("nee")} Nee`);
 
   const plusA = pluspunten(A, B), plusB = pluspunten(B, A);
   const titel = `${naam(A)} vs ${naam(B)}: welk zonnepaneel?`;
@@ -507,7 +516,7 @@ function vergelijkingsPagina(v) {
   return `${kop(`${titel} (2026)`, metaDesc, `${SITE}/vergelijk/${esc(v.slug)}.html`, wrapLd(itemList))}
 
 <main class="container" style="max-width:900px;">
-  <p class="datum-stempel" style="margin-top:22px;"><a href="/index.html">← Alle zonnepanelen vergelijken</a></p>
+  <p class="datum-stempel" style="margin-top:22px;"><a href="/index.html">${Iconen.svg("pijl-links")} Alle zonnepanelen vergelijken</a></p>
   <h1>${esc(naam(A))} vs ${esc(naam(B))}</h1>
   <p class="datum-stempel">Op basis van dezelfde feiten als onze vergelijker · laatst bijgewerkt op ${datumNL(data.laatst_bijgewerkt || VANDAAG)}</p>
   <p>Twee veelvergeleken zonnepanelen naast elkaar. Onder de tabel staan de belangrijkste verschillen op een rij. Vetgedrukt betekent: op dit punt objectief in het voordeel.</p>

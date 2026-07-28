@@ -80,12 +80,12 @@
   function koppelScoreBadge(o) {
     const score = koppelScore(o);
     const klasse = score >= 5 ? "zeker-hoog" : score >= 3 ? "zeker-midden" : "zeker-laag";
-    return `<span class="badge zeker-score ${klasse}" title="Koppel-score ${score} van 6: punten voor batterij-klaar, slim uitlezen (Home Assistant/Modbus) en schaduwaanpak (2 punten per onderdeel). Tik voor de details.">🔗 Koppel-score ${score}/6</span>`;
+    return `<span class="badge zeker-score ${klasse}" title="Koppel-score ${score} van 6: punten voor batterij-klaar, slim uitlezen (Home Assistant/Modbus) en schaduwaanpak (2 punten per onderdeel). Tik voor de details.">${Iconen.svg("koppeling")} Koppel-score ${score}/6</span>`;
   }
 
   function badgeHtml(label, waarde) {
     const d = driewaardig(waarde);
-    const icoon = d.status === "ja" ? "✓" : d.status === "deels" ? "~" : "✕";
+    const icoon = d.status === "ja" ? Iconen.svg("ja") : d.status === "deels" ? "~" : Iconen.svg("nee");
     return `<span class="badge ${d.status}" data-uitleg="${escapeHtml(label)}" title="${escapeHtml(d.tekst)}">${icoon} ${escapeHtml(label)}</span>`;
   }
 
@@ -208,8 +208,8 @@
         </div>
       </div>
       <div class="kaart-acties">
-        ${beste && beste.url ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de ${escapeHtml(o.merk)} ${escapeHtml(o.model)} bij ${escapeHtml(uitWinkel ? beste.winkel : "de fabrikant")}">${uitWinkel ? "Bekijk aanbieding →" : "Naar fabrikant →"}</a>` : ""}
-        <a class="knop knop-secundair" href="systeem.html?omvormer=${encodeURIComponent(o.id)}" title="Combineer deze omvormer met panelen en zie de systeemprijs" aria-label="Stel een systeem samen met de ${escapeHtml(o.merk)} ${escapeHtml(o.model)}">In systeem →</a>
+        ${beste && beste.url ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de ${escapeHtml(o.merk)} ${escapeHtml(o.model)} bij ${escapeHtml(uitWinkel ? beste.winkel : "de fabrikant")}">${uitWinkel ? `Bekijk aanbieding ${Iconen.svg("pijl-rechts")}` : `Naar fabrikant ${Iconen.svg("pijl-rechts")}`}</a>` : ""}
+        <a class="knop knop-secundair" href="systeem.html?omvormer=${encodeURIComponent(o.id)}" title="Combineer deze omvormer met panelen en zie de systeemprijs" aria-label="Stel een systeem samen met de ${escapeHtml(o.merk)} ${escapeHtml(o.model)}">In systeem ${Iconen.svg("pijl-rechts")}</a>
         <a class="knop knop-secundair" href="advies.html" title="Welke omvormer past bij jouw systeem? Doe de keuzehulp">Keuzehulp</a>
       </div>
     </article>`;
@@ -244,13 +244,13 @@
     }
     const checkCel = (v) => {
       const d = driewaardig(v);
-      if (d.status === "ja") return '<span class="check-ja">✓</span>';
+      if (d.status === "ja") return '<span class="check-ja">' + Iconen.svg("ja") + '</span>';
       if (d.status === "deels") return `<span class="check-deels" title="${escapeHtml(d.tekst)}">~</span>`;
-      return '<span class="check-nee">✕</span>';
+      return '<span class="check-nee">' + Iconen.svg("nee") + '</span>';
     };
     return `
     <table class="vergelijk-tabel">
-      <thead><tr>${tabelKolommen.map((k) => `<th data-kolom="${k.key}">${k.label}${k.key !== "actie" ? ' <span class="sorteer-pijl">⇅</span>' : ""}</th>`).join("")}</tr></thead>
+      <thead><tr>${tabelKolommen.map((k) => `<th data-kolom="${k.key}">${k.label}${k.key !== "actie" ? ' <span class="sorteer-pijl">' + Iconen.svg("sorteren") + '</span>' : ""}</th>`).join("")}</tr></thead>
       <tbody>
         ${rijen.map((o) => {
           const beste = bestePrijs(o);
@@ -264,7 +264,7 @@
             <td>${checkCel(o.batterij)}</td>
             <td>${checkCel(o.home_assistant)}</td>
             <td>${checkCel(o.homey)}</td>
-            <td>${beste && beste.url ? `<a class="knop" style="padding:7px 12px;font-size:0.85rem;" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijk →</a>` : ""}</td>
+            <td>${beste && beste.url ? `<a class="knop" style="padding:7px 12px;font-size:0.85rem;" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}">Bekijk ${Iconen.svg("pijl-rechts")}</a>` : ""}</td>
           </tr>`;
         }).join("")}
       </tbody>
@@ -277,7 +277,7 @@
 
   function vergelijkModalHtml(items) {
     const rij = (label, fn) => `<tr><th style="text-align:left;padding:8px 10px;background:var(--kleur-achtergrond);white-space:nowrap;position:sticky;left:0;z-index:1;box-shadow:2px 0 0 var(--kleur-rand);">${label}</th>${items.map((o) => `<td style="padding:8px 10px;border-bottom:1px solid var(--kleur-rand);">${fn(o)}</td>`).join("")}</tr>`;
-    const d3 = (v) => { const d = driewaardig(v); return d.status === "nee" ? `✕ ${escapeHtml(d.tekst === "Nee" ? "Nee" : d.tekst)}` : d.status === "deels" ? `~ ${escapeHtml(d.tekst)}` : `✓ ${escapeHtml(d.tekst)}`; };
+    const d3 = (v) => { const d = driewaardig(v); return d.status === "nee" ? `${Iconen.svg("nee")} ${escapeHtml(d.tekst === "Nee" ? "Nee" : d.tekst)}` : d.status === "deels" ? `~ ${escapeHtml(d.tekst)}` : `${Iconen.svg("ja")} ${escapeHtml(d.tekst)}`; };
     return `
       <h2>Vergelijking</h2>
       <div style="overflow-x:auto;">
@@ -294,7 +294,7 @@
         ${rij("Schaduwaanpak", (o) => d3(o.schaduw))}
         ${rij("App", (o) => escapeHtml(o.app || "?"))}
         ${rij("Garantie", (o) => (o.garantie_jaar ? o.garantie_jaar + " jaar" : "?"))}
-        ${rij("", (o) => { const b = bestePrijs(o); const w = b && b.winkel && !b.winkel.startsWith("richtprijs"); return b && b.url ? `<a class="knop" href="${escapeHtml(koopUrl(b))}" target="_blank" rel="noopener${b.affiliate_url ? " sponsored" : ""}">${w ? "Bekijk aanbieding →" : "Naar fabrikant →"}</a>` : ""; })}
+        ${rij("", (o) => { const b = bestePrijs(o); const w = b && b.winkel && !b.winkel.startsWith("richtprijs"); return b && b.url ? `<a class="knop" href="${escapeHtml(koopUrl(b))}" target="_blank" rel="noopener${b.affiliate_url ? " sponsored" : ""}">${w ? `Bekijk aanbieding ${Iconen.svg("pijl-rechts")}` : `Naar fabrikant ${Iconen.svg("pijl-rechts")}`}</a>` : ""; })}
       </table>
       </div>`;
   }
@@ -312,7 +312,7 @@
     const matches = state.panelen.filter((p) => zoekMatch(`${p.merk} ${p.model}`, zoek)).slice(0, 3);
     if (!matches.length) { doel.hidden = true; return; }
     doel.hidden = false;
-    doel.innerHTML = `☀️ Ook gevonden in de <b>panelen-vergelijker</b>: ` +
+    doel.innerHTML = `${Iconen.svg("zon")} Ook gevonden in de <b>panelen-vergelijker</b>: ` +
       matches.map((p) => `<a href="index.html?zoek=${encodeURIComponent(zoek)}">${escapeHtml(p.merk)} ${escapeHtml(p.model)}</a>`).join(" · ");
   }
 
@@ -444,7 +444,7 @@
       filterToggle.addEventListener("click", () => {
         const balk = el("filterbalk");
         const ingeklapt = balk.classList.toggle("ingeklapt");
-        filterToggle.textContent = ingeklapt ? "🔍 Filteren en sorteren ▾" : "🔍 Filteren en sorteren ▴";
+        filterToggle.textContent = ingeklapt ? `${Iconen.svg("zoeken")} Filteren en sorteren ` + Iconen.svg("chevron") + "" : `${Iconen.svg("zoeken")} Filteren en sorteren ` + Iconen.svg("chevron") + "";
       });
     }
   }

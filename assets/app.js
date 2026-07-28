@@ -130,7 +130,7 @@
   function zekerScoreBadge(p) {
     const score = zekerScore(p);
     const klasse = score >= 5 ? "zeker-hoog" : score >= 3 ? "zeker-midden" : "zeker-laag";
-    return `<span class="badge zeker-score ${klasse}" title="Zeker-score ${score} van 6: punten voor productgarantie, vermogensbehoud na 25 jaar en glas-glas uitvoering (2 punten per onderdeel). Tik voor de details.">🛡️ Zeker-score ${score}/6</span>`;
+    return `<span class="badge zeker-score ${klasse}" title="Zeker-score ${score} van 6: punten voor productgarantie, vermogensbehoud na 25 jaar en glas-glas uitvoering (2 punten per onderdeel). Tik voor de details.">${Iconen.svg("veiligheid")} Zeker-score ${score}/6</span>`;
   }
 
   // Sterren voor opbrengst per vierkante meter dak (vermogensdichtheid).
@@ -143,12 +143,15 @@
 
   function sterren(score) {
     const s = Math.max(0, Math.min(5, Math.round(score || 0)));
-    return "★".repeat(s) + "☆".repeat(5 - s);
+    // Gevulde en lege ster komen uit dezelfde icoonset, zodat ze precies
+    // dezelfde vorm hebben in plaats van twee losse tekens.
+    const ster = (gevuld) => Iconen.svg("ster", { gevuld });
+    return `<span class="sterren-rij" role="img" aria-label="${s} van 5 sterren">${ster(true).repeat(s)}${ster(false).repeat(5 - s)}</span>`;
   }
 
   function jaNeeBadge(label, waarde, titelJa, titelNee) {
     const status = waarde ? "ja" : "nee";
-    const icoon = waarde ? "✓" : "✕";
+    const icoon = Iconen.svg(waarde ? "ja" : "nee");
     const titel = waarde ? (titelJa || "Ja") : (titelNee || "Nee");
     return `<span class="badge ${status}" data-uitleg="${escapeHtml(label)}" title="${escapeHtml(titel)}">${icoon} ${escapeHtml(label)}</span>`;
   }
@@ -308,8 +311,8 @@
         </div>
       </div>
       <div class="kaart-acties">
-        ${beste && beste.url ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de ${escapeHtml(naamVan(p))} bij ${escapeHtml(beste.winkel || "de aanbieder")}">${beste.winkel && !beste.winkel.startsWith("richtprijs") ? "Bekijk aanbieding →" : "Naar fabrikant →"}</a>` : ""}
-        <a class="knop knop-secundair" href="systeem.html?paneel=${encodeURIComponent(p.id)}" title="Combineer dit paneel met een omvormer en zie de systeemprijs" aria-label="Stel een systeem samen met de ${escapeHtml(naamVan(p))}">In systeem →</a>
+        ${beste && beste.url ? `<a class="knop" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de ${escapeHtml(naamVan(p))} bij ${escapeHtml(beste.winkel || "de aanbieder")}">${beste.winkel && !beste.winkel.startsWith("richtprijs") ? "Bekijk aanbieding " + Iconen.svg("pijl-rechts") + "" : "Naar fabrikant " + Iconen.svg("pijl-rechts") + ""}</a>` : ""}
+        <a class="knop knop-secundair" href="systeem.html?paneel=${encodeURIComponent(p.id)}" title="Combineer dit paneel met een omvormer en zie de systeemprijs" aria-label="Stel een systeem samen met de ${escapeHtml(naamVan(p))}">In systeem ${Iconen.svg("pijl-rechts")}</a>
         <a class="knop knop-secundair" href="rekenmodule.html?paneel=${encodeURIComponent(p.id)}" title="Bereken de terugverdientijd van dit paneel voor jouw dak" aria-label="Bereken de terugverdientijd van de ${escapeHtml(naamVan(p))}">Terugverdientijd</a>
       </div>
       ${beste && beste.affiliate_url ? `<div class="datum-stempel" style="padding:0 20px 12px;">Dit is een commissielink: kost jou niets, beïnvloedt de vergelijking niet. <a href="over-ons.html">Uitleg</a></div>` : ""}
@@ -345,7 +348,7 @@
     }
     return `
     <table class="vergelijk-tabel">
-      <thead><tr>${tabelKolommen.map((k) => `<th data-kolom="${k.key}">${k.label}${k.key !== "actie" ? ' <span class="sorteer-pijl">⇅</span>' : ""}</th>`).join("")}</tr></thead>
+      <thead><tr>${tabelKolommen.map((k) => `<th data-kolom="${k.key}">${k.label}${k.key !== "actie" ? ' <span class="sorteer-pijl">' + Iconen.svg("sorteren") + '</span>' : ""}</th>`).join("")}</tr></thead>
       <tbody>
         ${rijen.map((p) => {
           const beste = bestePrijs(p);
@@ -357,10 +360,10 @@
             <td>${escapeHtml(celtypeLabel(p))}</td>
             <td class="tabel-prijs" title="${escapeHtml(p.prijs_omvat || "")}">${beste ? eurFmt.format(beste.prijs_eur) : "n.b."}${heeftKorting(p) ? ' <span class="aanbieding-vlag">deal</span>' : ""}</td>
             <td>${perWp ? eurWpFmt.format(perWp) : "n.b."}</td>
-            <td>${p.uitvoering === "glas-glas" ? '<span class="check-ja">✓</span>' : '<span class="check-nee">✕</span>'}</td>
+            <td>${p.uitvoering === "glas-glas" ? '<span class="check-ja">' + Iconen.svg("ja") + '</span>' : '<span class="check-nee">' + Iconen.svg("nee") + '</span>'}</td>
             <td>${p.garantie_product_jaar ? p.garantie_product_jaar + " jr" : "?"}</td>
             <td title="Punten voor productgarantie, vermogensbehoud en glas-glas"><b>${zekerScore(p)}/6</b></td>
-            <td>${beste && beste.url ? `<a class="knop" style="padding:7px 12px;font-size:0.85rem;" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de ${escapeHtml(naamVan(p))}">Bekijk →</a>` : ""}</td>
+            <td>${beste && beste.url ? `<a class="knop" style="padding:7px 12px;font-size:0.85rem;" href="${escapeHtml(koopUrl(beste))}" target="_blank" rel="noopener${beste.affiliate_url ? " sponsored" : ""}" aria-label="Bekijk de ${escapeHtml(naamVan(p))}">Bekijk ${Iconen.svg("pijl-rechts")}</a>` : ""}</td>
           </tr>`;
         }).join("")}
       </tbody>
@@ -374,7 +377,7 @@
   function vergelijkModalHtml(items) {
     // Eerste kolom sticky, zodat de labels leesbaar blijven bij horizontaal scrollen op een telefoon
     const rij = (label, fn) => `<tr><th style="text-align:left;padding:8px 10px;background:var(--kleur-achtergrond);white-space:nowrap;position:sticky;left:0;z-index:1;box-shadow:2px 0 0 var(--kleur-rand);">${label}</th>${items.map((p) => `<td style="padding:8px 10px;border-bottom:1px solid var(--kleur-rand);">${fn(p)}</td>`).join("")}</tr>`;
-    const jaNee = (v) => (v ? "✓ Ja" : "✕ Nee");
+    const jaNee = (v) => (v ? `${Iconen.svg("ja")} Ja` : `${Iconen.svg("nee")} Nee`);
     return `
       <h2>Vergelijking</h2>
       <div style="overflow-x:auto;">
@@ -395,7 +398,7 @@
         ${rij("Temperatuurcoëfficiënt", (p) => (p.temp_coefficient ? `${nl(p.temp_coefficient)}%/°C` : "?"))}
         ${rij("Afmetingen (mm)", (p) => escapeHtml(p.afmetingen_mm || "?"))}
         ${rij("Gewicht", (p) => (p.gewicht_kg ? `circa ${nl(p.gewicht_kg)} kg` : "?"))}
-        ${rij("", (p) => { const b = bestePrijs(p); return b && b.url ? `<a class="knop" href="${escapeHtml(koopUrl(b))}" target="_blank" rel="noopener${b.affiliate_url ? " sponsored" : ""}">Bekijk →</a>` : ""; })}
+        ${rij("", (p) => { const b = bestePrijs(p); return b && b.url ? `<a class="knop" href="${escapeHtml(koopUrl(b))}" target="_blank" rel="noopener${b.affiliate_url ? " sponsored" : ""}">Bekijk ${Iconen.svg("pijl-rechts")}</a>` : ""; })}
       </table>
       </div>`;
   }
@@ -414,7 +417,7 @@
     const matches = state.omvormers.filter((o) => zoekMatch(`${o.merk} ${o.model}`, zoek)).slice(0, 3);
     if (!matches.length) { doel.hidden = true; return; }
     doel.hidden = false;
-    doel.innerHTML = `⚡ Ook gevonden in de <b>omvormer-vergelijker</b>: ` +
+    doel.innerHTML = `${Iconen.svg("stroom")} Ook gevonden in de <b>omvormer-vergelijker</b>: ` +
       matches.map((o) => `<a href="omvormers.html?zoek=${encodeURIComponent(zoek)}">${escapeHtml(o.merk)} ${escapeHtml(o.model)}</a>`).join(" · ");
   }
 
@@ -473,7 +476,7 @@
       filterToggle.addEventListener("click", () => {
         const balk = el("filterbalk");
         const ingeklapt = balk.classList.toggle("ingeklapt");
-        filterToggle.textContent = ingeklapt ? "🔍 Filteren en sorteren ▾" : "🔍 Filteren en sorteren ▴";
+        filterToggle.textContent = ingeklapt ? "" + Iconen.svg("zoeken") + " Filteren en sorteren " + Iconen.svg("chevron") + "" : "" + Iconen.svg("zoeken") + " Filteren en sorteren " + Iconen.svg("chevron") + "";
       });
     }
 

@@ -37,9 +37,10 @@
     ]
   }
   </script>
-  <link rel="stylesheet" href="assets/style.css?v=20260723c">
-  <script src="assets/omvormers.js?v=20260721i" defer></script>
-  <script src="assets/nav.js?v=20260721c" defer></script>
+  <link rel="stylesheet" href="assets/style.css?v=20260728a">
+  <script src="assets/iconen.js?v=20260728a" defer></script>
+  <script src="assets/omvormers.js?v=20260728a" defer></script>
+  <script src="assets/nav.js?v=20260728a" defer></script>
   <link rel="icon" href="assets/favicon.svg?v=1" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=1">
 </head>
@@ -48,7 +49,7 @@
 <header class="site-header">
   <div class="container">
     <a class="logo" href="index.html">
-      <span class="logo-icoon">☀️</span>
+      <span class="logo-icoon"><svg class="icoon icoon-groot" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4" /> <path d="M12 2v2" /> <path d="M12 20v2" /> <path d="m4.93 4.93 1.41 1.41" /> <path d="m17.66 17.66 1.41 1.41" /> <path d="M2 12h2" /> <path d="M20 12h2" /> <path d="m6.34 17.66-1.41 1.41" /> <path d="m19.07 4.93-1.41 1.41" /></svg></span>
       <span>Zonnestroom<b>maatje</b></span>
     </a>
     <nav class="hoofdnav">
@@ -58,7 +59,7 @@
       <a href="advies.html">Keuzehulp</a>
       <a href="rekenmodule.html">Terugverdientijd</a>
       <details class="nav-meer">
-        <summary>Meer ▾</summary>
+        <summary>Meer <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></summary>
         <div class="nav-meer-paneel">
           <a href="energieplan.html">Jouw energieplan</a>
           <a href="uitleg.html">Uitleg</a>
@@ -79,16 +80,16 @@
     <h1>Omvormers vergelijken op wat hem écht slim maakt</h1>
     <p>De omvormer is het hart van je zonnestroomsysteem, en bepaalt méér dan de panelen of je systeem toekomstklaar is: kan er straks een <b>thuisbatterij</b> aan, is hij <b>slim uit te lezen en aan te sturen</b> (Home Assistant, Modbus, EMS) en hoe gaat hij om met <b>schaduw</b>? Wij vatten dat samen in de Koppel-score. Onafhankelijk en in gewone taal.</p>
     <div style="margin-top:16px;display:flex;gap:8px;flex-wrap:wrap;">
-      <span class="update-info">⚡ <b id="tellerOmvormers">12</b> omvormersystemen</span>
-      <span class="update-info">🔄 Bijgewerkt: <b id="updateDatum">…</b></span>
-      <span class="update-info">⚖️ 100% onafhankelijk</span>
+      <span class="update-info"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2v10" /> <path d="M18.4 6.6a9 9 0 1 1-12.77.04" /></svg> <b id="tellerOmvormers">12</b> omvormersystemen</span>
+      <span class="update-info"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" /> <path d="M21 3v5h-5" /> <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" /> <path d="M8 16H3v5" /></svg> Bijgewerkt: <b id="updateDatum">…</b></span>
+      <span class="update-info"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18" /> <path d="m19 8 3 8a5 5 0 0 1-6 0zV7" /> <path d="M3 7h1a17 17 0 0 0 8-2 17 17 0 0 0 8 2h1" /> <path d="m5 8 3 8a5 5 0 0 1-6 0zV7" /> <path d="M7 21h10" /></svg> 100% onafhankelijk</span>
     </div>
   </div>
 </section>
 
 <main class="container">
 
-  <button class="filter-toggle" id="filterToggle">🔍 Filteren en sorteren ▾</button>
+  <button class="filter-toggle" id="filterToggle"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8" /> <path d="m21 21-4.3-4.3" /></svg> Filteren en sorteren <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg></button>
 
   <div class="filterbalk ingeklapt" id="filterbalk">
     <div class="filter-rij">
@@ -132,8 +133,8 @@
       <div class="filter-groep">
         <span class="filter-label">Toon alleen</span>
         <div class="checkbox-groep">
-          <label title="Er kan direct een thuisbatterij op worden aangesloten"><input type="checkbox" id="checkBatterij"> 🔋 Batterij-klaar</label>
-          <label title="Officiële Home Assistant-integratie of open lokale API"><input type="checkbox" id="checkHa"> 🏠 Officiële slimme koppeling</label>
+          <label title="Er kan direct een thuisbatterij op worden aangesloten"><input type="checkbox" id="checkBatterij"> <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m11 7-3 5h4l-3 5" /> <path d="M14.856 6H16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.935" /> <path d="M22 14v-4" /> <path d="M5.14 18H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2.936" /></svg> Batterij-klaar</label>
+          <label title="Officiële Home Assistant-integratie of open lokale API"><input type="checkbox" id="checkHa"> <svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /> <path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></svg> Officiële slimme koppeling</label>
         </div>
       </div>
       <button class="filter-reset" id="resetFilters">Alle filters wissen</button>
@@ -141,13 +142,13 @@
   </div>
 
   <details class="legenda">
-    <summary>ℹ️ Wat betekenen de symbolen?</summary>
+    <summary><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10" /> <path d="M12 16v-4" /> <path d="M12 8h.01" /></svg> Wat betekenen de symbolen?</summary>
     <div class="legenda-lijst">
-      <div class="legenda-rij"><span class="badge zeker-hoog">🔗 Koppel-score</span><span>Punten (0 tot 6) voor batterij-klaar, slim uitlezen en schaduwaanpak. Uitleg staat onderaan deze pagina.</span></div>
-      <div class="legenda-rij"><span class="badge ja">✓</span><span>Direct of officieel ondersteund</span></div>
+      <div class="legenda-rij"><span class="badge zeker-hoog"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /> <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></svg> Koppel-score</span><span>Punten (0 tot 6) voor batterij-klaar, slim uitlezen en schaduwaanpak. Uitleg staat onderaan deze pagina.</span></div>
+      <div class="legenda-rij"><span class="badge ja"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg></span><span>Direct of officieel ondersteund</span></div>
       <div class="legenda-rij"><span class="badge deels">~</span><span>Werkt via een omweg: community-integratie, extra module of meerdere MPPT's. Tik op de badge voor de uitleg.</span></div>
-      <div class="legenda-rij"><span class="badge nee">✕</span><span>Niet ondersteund</span></div>
-      <div class="legenda-rij"><span>▦/☰</span><span>Wissel tussen kaarten en tabel; vink "vergelijk" aan op maximaal 3 kaarten om ze zij aan zij te zien.</span></div>
+      <div class="legenda-rij"><span class="badge nee"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18" /> <path d="m6 6 12 12" /></svg></span><span>Niet ondersteund</span></div>
+      <div class="legenda-rij"><span><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg>/<svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h.01" /> <path d="M3 12h.01" /> <path d="M3 19h.01" /> <path d="M8 5h13" /> <path d="M8 12h13" /> <path d="M8 19h13" /></svg></span><span>Wissel tussen kaarten en tabel; vink "vergelijk" aan op maximaal 3 kaarten om ze zij aan zij te zien.</span></div>
     </div>
   </details>
 
@@ -156,8 +157,8 @@
   <div class="resultaten-balk">
     <span class="resultaten-telling" id="resultatenTelling">Laden…</span>
     <div class="weergave-knoppen">
-      <button id="knopKaarten" class="actief">▦ Kaarten</button>
-      <button id="knopTabel">☰ Tabel</button>
+      <button id="knopKaarten" class="actief"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="7" height="7" x="3" y="3" rx="1" /> <rect width="7" height="7" x="14" y="3" rx="1" /> <rect width="7" height="7" x="14" y="14" rx="1" /> <rect width="7" height="7" x="3" y="14" rx="1" /></svg> Kaarten</button>
+      <button id="knopTabel"><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5h.01" /> <path d="M3 12h.01" /> <path d="M3 19h.01" /> <path d="M8 5h13" /> <path d="M8 12h13" /> <path d="M8 19h13" /></svg> Tabel</button>
     </div>
   </div>
 
@@ -203,7 +204,7 @@
 
 <footer class="site-footer">
   <div class="container">
-    <b>☀️ Zonnestroommaatje</b>
+    <b><svg class="icoon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4" /> <path d="M12 2v2" /> <path d="M12 20v2" /> <path d="m4.93 4.93 1.41 1.41" /> <path d="m17.66 17.66 1.41 1.41" /> <path d="M2 12h2" /> <path d="M20 12h2" /> <path d="m6.34 17.66-1.41 1.41" /> <path d="m19.07 4.93-1.41 1.41" /></svg> Zonnestroommaatje</b>
     <p>Onafhankelijke vergelijking van zonnepanelen voor Nederlandse huishoudens. Zustersite van <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl</a> (thuisbatterijen) en <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje</a> (warmtepompen).</p>
     <p><a href="index.html">Zonnepanelen</a> · <a href="omvormers.html">Omvormers</a> · <a href="systeem.html">Samenstellen</a> · <a href="advies.html">Keuzehulp</a> · <a href="rekenmodule.html">Terugverdientijd</a> · <a href="uitleg.html">Uitleg</a> · <a href="waar-zonnepanelen-kopen.html">Waar koop je panelen?</a> · <a href="regelgeving.html">Regels &amp; subsidies</a> · <a href="beste-zonnepanelen-klein-dak.html">Beste voor een klein dak</a> · <a href="beste-glas-glas-zonnepanelen.html">Beste glas-glas panelen</a> · <a href="index.html#veelgestelde-vragen">Veelgestelde vragen</a> · <a href="over-ons.html">Over ons</a> · <a href="contact.html">Contact</a> · <a href="privacy.html">Privacy &amp; disclaimer</a></p>
     <p class="disclaimer">Disclaimer: prijzen, specificaties en integraties veranderen regelmatig; er kunnen geen rechten aan worden ontleend. Controleer voor aankoop de actuele datasheet en de compatibiliteit met jouw situatie.</p>

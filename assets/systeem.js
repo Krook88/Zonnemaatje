@@ -185,7 +185,7 @@
     const paneelStuk = pBest ? pBest.prijs_eur : 0;
     const paneelTotaal = paneelStuk * s.aantal;
     rijen.push({
-      label: `☀️ <b>${s.aantal} ×</b> ${escapeHtml(naamVan(p))}`,
+      label: `${Iconen.svg("zon")} <b>${s.aantal} ×</b> ${escapeHtml(naamVan(p))}`,
       sub: winkelFragment(pBest, ` (${eurFmt.format(paneelStuk)} per paneel)`),
       bedrag: paneelTotaal,
     });
@@ -197,32 +197,32 @@
       const unitsTotaal = units * oStuk;
       omvormerTotaal += unitsTotaal;
       rijen.push({
-        label: `⚡ <b>${units} ×</b> ${escapeHtml(o.merk)} micro-omvormer${cfg.soort === "per_2_panelen" ? " (per 2 panelen)" : ""}`,
+        label: `${Iconen.svg("stroom")} <b>${units} ×</b> ${escapeHtml(o.merk)} micro-omvormer${cfg.soort === "per_2_panelen" ? " (per 2 panelen)" : ""}`,
         sub: winkelFragment(oBest, ` (${eurFmt.format(oStuk)} per stuk)`),
         bedrag: unitsTotaal,
       });
       if (cfg.extra_per_systeem) {
         omvormerTotaal += cfg.extra_per_systeem.prijs_eur;
-        rijen.push({ label: `📡 ${escapeHtml(cfg.extra_per_systeem.label)} (1 per systeem)`, sub: "<small>richtprijs (indicatie)</small>", bedrag: cfg.extra_per_systeem.prijs_eur });
+        rijen.push({ label: `${Iconen.svg("signaal")} ${escapeHtml(cfg.extra_per_systeem.label)} (1 per systeem)`, sub: "<small>richtprijs (indicatie)</small>", bedrag: cfg.extra_per_systeem.prijs_eur });
       }
     } else if (cfg.soort === "centraal_optimizer") {
       omvormerTotaal += oStuk;
-      rijen.push({ label: `⚡ ${escapeHtml(o.merk)} ${escapeHtml(o.model)}`, sub: winkelFragment(oBest), bedrag: oStuk });
+      rijen.push({ label: `${Iconen.svg("stroom")} ${escapeHtml(o.merk)} ${escapeHtml(o.model)}`, sub: winkelFragment(oBest), bedrag: oStuk });
       if (cfg.optimizer) {
         const optTotaal = s.aantal * cfg.optimizer.prijs_eur;
         omvormerTotaal += optTotaal;
-        rijen.push({ label: `🔌 <b>${s.aantal} ×</b> ${escapeHtml(cfg.optimizer.label)}`, sub: `<small>richtprijs circa ${eurFmt.format(cfg.optimizer.prijs_eur)} per stuk</small>`, bedrag: optTotaal });
+        rijen.push({ label: `${Iconen.svg("stekker")} <b>${s.aantal} ×</b> ${escapeHtml(cfg.optimizer.label)}`, sub: `<small>richtprijs circa ${eurFmt.format(cfg.optimizer.prijs_eur)} per stuk</small>`, bedrag: optTotaal });
       }
     } else {
       omvormerTotaal += oStuk;
       const kwTekst = cfg.voorbeeld_ac_kw ? ` (${String(cfg.voorbeeld_ac_kw).replace(".", ",")} kW-variant)` : "";
-      rijen.push({ label: `⚡ ${escapeHtml(o.merk)} ${escapeHtml(o.model)}${kwTekst}`, sub: winkelFragment(oBest), bedrag: oStuk });
+      rijen.push({ label: `${Iconen.svg("stroom")} ${escapeHtml(o.merk)} ${escapeHtml(o.model)}${kwTekst}`, sub: winkelFragment(oBest), bedrag: oStuk });
     }
 
     // Montage-indicatie: dezelfde rekensom als keuzehulp en rekenmodule
     // (montage + omvormer samen circa € 1.200 + € 130 per paneel)
     const montage = Math.max(800, 1200 + 130 * s.aantal - omvormerTotaal);
-    rijen.push({ label: "🔧 Montage, bekabeling en meterkast (indicatie)", sub: "", bedrag: montage });
+    rijen.push({ label: `${Iconen.svg("installatie")} Montage, bekabeling en meterkast (indicatie)`, sub: "", bedrag: montage });
 
     return { rijen, totaal: paneelTotaal + omvormerTotaal + montage };
   }
@@ -250,12 +250,12 @@
     const alleChecks = checks(p, o, { aantal: s.aantal, schaduw: s.schaduw, batterij: s.batterij, smart: s.smart });
     const { rijen, totaal } = prijsOpbouw(p, o, s);
     const heeftFout = alleChecks.some((c) => c.soort === "fout");
-    const icoon = { ok: "✓", "let-op": "~", fout: "✕" };
+    const icoon = { ok: Iconen.svg("ja"), "let-op": "~", fout: Iconen.svg("nee") };
 
     el("systeemInhoud").innerHTML = `
       <div class="advies-samenvatting">
         <div class="groot">${s.aantal} × ${escapeHtml(naamVan(p))} + ${escapeHtml(o.merk)}</div>
-        <p style="margin:6px 0 0;">Totaal <b>${numFmt.format(totWp)} Wp</b> · systeemprijs circa <b>${eurFmt.format(totaal)}</b>${heeftFout ? " · ⚠️ let op: deze combinatie heeft een probleem, zie de checks" : ""}</p>
+        <p style="margin:6px 0 0;">Totaal <b>${numFmt.format(totWp)} Wp</b> · systeemprijs circa <b>${eurFmt.format(totaal)}</b>${heeftFout ? " · " + Iconen.svg("let-op") + " let op: deze combinatie heeft een probleem, zie de checks" : ""}</p>
       </div>
 
       <h3 style="margin:16px 0 0;font-size:1rem;">Technische check</h3>
@@ -271,11 +271,11 @@
       <p class="hint" style="margin:8px 0 0;">Prijzen zijn de goedkoopst gevonden winkelprijzen of richtprijzen (0% btw waar van toepassing, losse onderdelen soms exclusief btw). Klik op de winkel voor de actuele aanbieding en vraag altijd meerdere offertes aan.</p>
 
       <p style="margin:14px 0 0;display:flex;gap:8px;flex-wrap:wrap;">
-        <a class="knop" href="rekenmodule.html?paneel=${encodeURIComponent(p.id)}&aantal=${s.aantal}">Bereken terugverdientijd →</a>
+        <a class="knop" href="rekenmodule.html?paneel=${encodeURIComponent(p.id)}&aantal=${s.aantal}">Bereken terugverdientijd ${Iconen.svg("pijl-rechts")}</a>
         <a class="knop knop-secundair" href="advies.html">Twijfel je? Doe de keuzehulp</a>
-        <a class="knop knop-secundair" href="javascript:window.print()">🖨️ Afdrukken</a>
+        <a class="knop knop-secundair" href="javascript:window.print()">${Iconen.svg("printen")} Afdrukken</a>
       </p>
-      ${s.batterij !== "nee" ? `<p class="hint" style="margin:10px 0 0;">🔋 Batterijen vergelijken op prijs per kWh, noodstroom en slimme aansturing doe je op onze zustersite <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl →</a> Verwarm je (straks) met een warmtepomp, dan benut die je zonnestroom extra goed; vergelijk warmtepompen op <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje →</a></p>` : ""}
+      ${s.batterij !== "nee" ? `<p class="hint" style="margin:10px 0 0;">${Iconen.svg("batterij")} Batterijen vergelijken op prijs per kWh, noodstroom en slimme aansturing doe je op onze zustersite <a href="https://batterijmaatje.nl/" target="_blank" rel="noopener">Batterijmaatje.nl ${Iconen.svg("pijl-rechts")}</a> Verwarm je (straks) met een warmtepomp, dan benut die je zonnestroom extra goed; vergelijk warmtepompen op <a href="https://warmtepompmaatje.nl/" target="_blank" rel="noopener">Warmtepompmaatje ${Iconen.svg("pijl-rechts")}</a></p>` : ""}
     `;
   }
 
